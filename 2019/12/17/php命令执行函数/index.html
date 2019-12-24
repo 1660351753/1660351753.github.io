@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="exec函数12345&amp;lt;?php  $test = &quot;ls&quot;;  exec($test,$array);       print_r($array);  ?&amp;gt; exec只有一行返回结果 system函数12345&amp;lt;?php  $test = &quot;ls /tmp/test&quot;;  $last = system($test);  print &quot;last: $last\n&quot;;  ?&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php系统命令执行函数">
+<meta property="og:url" content="http://yoursite.com/2019/12/17/php命令执行函数/index.html">
+<meta property="og:site_name" content="cop&#39;s blog">
+<meta property="og:description" content="exec函数12345&amp;lt;?php  $test = &quot;ls&quot;;  exec($test,$array);       print_r($array);  ?&amp;gt; exec只有一行返回结果 system函数12345&amp;lt;?php  $test = &quot;ls /tmp/test&quot;;  $last = system($test);  print &quot;last: $last\n&quot;;  ?&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i2.tiimg.com/706174/6cea8d56f4a8d40a.png">
+<meta property="og:image" content="https://i1.fuimg.com/706174/e406e7306830b661.png">
+<meta property="og:image" content="https://i1.fuimg.com/706174/6a8bd220d97a96a8.png">
+<meta property="og:updated_time" content="2019-12-18T09:19:30.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php系统命令执行函数">
+<meta name="twitter:description" content="exec函数12345&amp;lt;?php  $test = &quot;ls&quot;;  exec($test,$array);       print_r($array);  ?&amp;gt; exec只有一行返回结果 system函数12345&amp;lt;?php  $test = &quot;ls /tmp/test&quot;;  $last = system($test);  print &quot;last: $last\n&quot;;  ?&amp;gt;">
+<meta name="twitter:image" content="https://i2.tiimg.com/706174/6cea8d56f4a8d40a.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/17/php命令执行函数/">
+
+
+
+
+
+  <title>php系统命令执行函数 | cop's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cop's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/17/php命令执行函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cop's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">php系统命令执行函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-17T22:26:44+08:00">
+                2019-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="exec函数"><a href="#exec函数" class="headerlink" title="exec函数"></a>exec函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php  </span><br><span class="line"><span class="variable">$test</span> = <span class="string">"ls"</span>;  </span><br><span class="line"><span class="built_in">exec</span>(<span class="variable">$test</span>,<span class="variable">$array</span>);       </span><br><span class="line">print_r(<span class="variable">$array</span>);  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>exec只有一行返回结果</p>
+<h2 id="system函数"><a href="#system函数" class="headerlink" title="system函数"></a>system函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php  </span><br><span class="line"><span class="variable">$test</span> = <span class="string">"ls /tmp/test"</span>;  </span><br><span class="line"><span class="variable">$last</span> = system(<span class="variable">$test</span>);  </span><br><span class="line"><span class="built_in">print</span> <span class="string">"last: <span class="variable">$last</span>\n"</span>;  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="passthru函数"><a href="#passthru函数" class="headerlink" title="passthru函数"></a>passthru函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php  </span><br><span class="line"><span class="variable">$test</span> = <span class="string">"ls /tmp/test"</span>;  </span><br><span class="line">passthru(<span class="variable">$test</span>);  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="popen函数"><a href="#popen函数" class="headerlink" title="popen函数"></a>popen函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php  </span><br><span class="line"><span class="variable">$test</span> = <span class="string">"ls /tmp/test"</span>;  </span><br><span class="line"><span class="variable">$fp</span> = popen(<span class="variable">$test</span>,<span class="string">"r"</span>);  //popen打一个进程通道  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">while</span> (!feof(<span class="variable">$fp</span>)) &#123;      //从通道里面取得东西  </span><br><span class="line"> <span class="variable">$out</span> = fgets(<span class="variable">$fp</span>, 4096);  </span><br><span class="line"> <span class="built_in">echo</span>  <span class="variable">$out</span>;         //打印出来  </span><br><span class="line">&#125;  </span><br><span class="line">pclose(<span class="variable">$fp</span>);  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="proc-open函数"><a href="#proc-open函数" class="headerlink" title="proc_open函数"></a>proc_open函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php  </span><br><span class="line"><span class="variable">$test</span> = <span class="string">"ls /tmp/test"</span>;  </span><br><span class="line"><span class="variable">$array</span> =   array(  </span><br><span class="line"> array(<span class="string">"pipe"</span>,<span class="string">"r"</span>),   //标准输入  </span><br><span class="line"> array(<span class="string">"pipe"</span>,<span class="string">"w"</span>),   //标准输出内容  </span><br><span class="line"> array(<span class="string">"pipe"</span>,<span class="string">"w"</span>)    //标准输出错误  </span><br><span class="line"> );  </span><br><span class="line">  </span><br><span class="line"><span class="variable">$fp</span> = proc_open(<span class="variable">$test</span>,<span class="variable">$array</span>,<span class="variable">$pipes</span>);   //打开一个进程通道  </span><br><span class="line"><span class="built_in">echo</span> stream_get_contents(<span class="variable">$pipes</span>[1]);    //<span class="variable">$pipes</span>[1]是输出内容  </span><br><span class="line">proc_close(<span class="variable">$fp</span>);  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php  </span><br><span class="line"><span class="variable">$test</span> = <span class="string">"ls /tmp/test"</span>;  </span><br><span class="line"><span class="variable">$out</span> = shell_exec(<span class="variable">$test</span>); // = `<span class="variable">$test</span>`;</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$out</span>;  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>附nctf的一道题<br><img src="https://i2.tiimg.com/706174/6cea8d56f4a8d40a.png" alt><br>php disable_function禁用了很多函数，没有禁用proc_open<br>把/readflag的结果写入根目录下<br><img src="https://i1.fuimg.com/706174/e406e7306830b661.png" alt><br>再包含输出结果<br><img src="https://i1.fuimg.com/706174/6a8bd220d97a96a8.png" alt><br>也可直接反弹shell更方便</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/20/2019ISCC-WEB/" rel="next" title="2019ISCC-WEB">
+                <i class="fa fa-chevron-left"></i> 2019ISCC-WEB
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/18/nctf2019/" rel="prev" title="nctf2019">
+                nctf2019 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">cop</p>
+              <p class="site-description motion-element" itemprop="description">cop's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#exec函数"><span class="nav-number">1.</span> <span class="nav-text">exec函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#system函数"><span class="nav-number">2.</span> <span class="nav-text">system函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#passthru函数"><span class="nav-number">3.</span> <span class="nav-text">passthru函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#popen函数"><span class="nav-number">4.</span> <span class="nav-text">popen函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#proc-open函数"><span class="nav-number">5.</span> <span class="nav-text">proc_open函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-exec函数"><span class="nav-number">6.</span> <span class="nav-text">shell_exec函数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true}});</script></body>
+</html>

